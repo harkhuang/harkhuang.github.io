@@ -1,2 +1,5 @@
-# harkhuang.github.io
-一个杂技演员的博客
+#  harkhuang.github.io 
+
+[入口](https://harkhuang.github.io/)
+
+
