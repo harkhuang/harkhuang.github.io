@@ -1,7 +1,7 @@
 ###  boost asio 前摄器模型 
 
-![Alt text](proator.png "optional title")
-`![](proator.png)`
+
+![](proator.png)
 [proator.png]
 ##### io_server   asio 事件绑定三部曲
 
