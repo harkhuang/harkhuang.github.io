@@ -1,7 +1,7 @@
 ###  boost asio 前摄器模型 
 
 
-![Alt text](proactor.png "asio-proactor-desgin")
+![Alt text](proactor.png)
 
 
 ```
