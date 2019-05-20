@@ -1,8 +1,11 @@
-###  boost asio 模型
+###  boost asio 前摄器模型 
 
 
-
+[proator.png]
 ##### io_server   asio 事件绑定三部曲
+
+
+
 ```
   boost::shared_ptr< boost::asio::io_service > io_service(
       new boost::asio::io_service
