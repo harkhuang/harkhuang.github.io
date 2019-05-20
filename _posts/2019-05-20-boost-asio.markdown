@@ -2,7 +2,7 @@
 
 
 ![Alt text](proator.png "optional title")
-`![](_posts/proactor.png)`
+`![](proactor.png)`
 [proator.png]
 
 ```
