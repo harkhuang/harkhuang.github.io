@@ -1,9 +1,9 @@
 ###  boost asio 前摄器模型 
 
 
-![Alt text](proator.png "optional title")
+![Alt text](proactor.png "optional title")
 `![](proactor.png)`
-[proator.png]
+[proactor.png]
 
 ```
   boost::shared_ptr< boost::asio::io_service > io_service(
