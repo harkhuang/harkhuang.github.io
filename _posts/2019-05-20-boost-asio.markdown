@@ -97,7 +97,7 @@ int test_bind_and_call( )
 }
 ```
 
-
+```
 - ps 绑定调用课使用参数模板  用_1 , _2 表示引用参数
 //bind(f, _1, 5)(x)等价于f(x, 5)，其中_1是一个占位符，表示用第一个参数来替换;
 //bind(f, _2, _1)(x, y)等价于f(y, x);
@@ -107,7 +107,7 @@ int test_bind_and_call( )
 //bind(g, _1, 9, _1)(x); //g(x, 9, x)
 //bind(g, _3, _3, _3)(x, y, z); //g(z, z, z)
 //bind(g, _1, _1, _1)(x, y, z); //g(x, x, x)
-
+```
 
 
 start boost (对库响应介绍，权威)
