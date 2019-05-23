@@ -1,4 +1,11 @@
 
+---
+layout: post
+title:  " boost aiso titorial "
+date:   2019-05-08 15:16:51 +0800
+categories: jekyll update
+---
+
 boost :: asio入门指南
 
 条目由Drew_Benton发布 ·2011年1月31日
