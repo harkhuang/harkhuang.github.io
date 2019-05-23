@@ -1,6 +1,6 @@
 ###  boost asio 前摄器模型 
 
-![Alt text](http://harkhuang.cn/_posts/proactor.png)
+![Alt text](./_posts/proactor.png)
 
 ![name][01]
 
