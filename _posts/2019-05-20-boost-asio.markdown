@@ -1,7 +1,8 @@
 ###  boost asio 前摄器模型 
 
-![Alt text](_picture/proactor.png)
-
+![Alt text](./proactor.png)
+![name][01]
+[01]: ./proactor.png '不可描述'
 
 ```
   boost::shared_ptr< boost::asio::io_service > io_service(
