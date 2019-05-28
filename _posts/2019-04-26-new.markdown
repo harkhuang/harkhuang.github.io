@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "some synate !"
+title:  "markdown语法手册"
 date:   2019-04-26 15:16:51 +0800
 categories: jekyll update
 ---
