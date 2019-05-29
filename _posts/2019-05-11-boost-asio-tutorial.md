@@ -1,7 +1,6 @@
-
 ---
 layout: post
-title:  " boost aiso titorial "
+title:  " boost aiso tutorial "
 date:   2019-05-08 15:16:51 +0800
 categories: jekyll update
 ---
