@@ -28,14 +28,14 @@ boost :: asio 是“用于网络和低级I / O编程的跨平台C ++库，它使
 
 1. io_service的基础知识
 2. 了解boost :: bind
-3.为io_service做一些工作
+3. 为io_service做一些工作
 4. 使用strand
-5 序列化我们的工作负载。错误处理
+5. 序列化我们的工作负载。错误处理
 6. 定时器
 7. 网络基础：连接器和接受器（TCP）
-8。网络基础：二进制协议发送和接收（TCP）
+8. 网络基础：二进制协议发送和接收（TCP）
 9. 一个boost :: asio网络包装器（TCP）
-10 。前面的道路
+10. 前面的道路
 
 [页面]
 
@@ -44,20 +44,16 @@ boost :: asio 是“用于网络和低级I / O编程的跨平台C ++库，它使
 的基础知识 boost :: asio的核心对象是io_service。这个对象就像大脑和图书馆的核心。我们将从一个简单的例子开始，以熟悉它。在这个例子中，我们将调用run 成员函数。如果我们检查函数的文档，“run（）函数会阻塞，直到所有工作都完成，并且没有更多的处理程序要调度，或者直到io_service被停止。”
 
 例1a
- 
 
-
+```
 int main( int argc, char * argv[] )
 {
-boost::asio::io_service io_service;
-io_service.run();
-std::cout << "Do you reckon this line displays?" << std::endl; //??
-return 0;
+	boost::asio::io_service io_service;
+	io_service.run();
+	std::cout << "Do you reckon this line displays?" << std::endl; //??
+	return 0;
 }
-
-
-
-
+```
 
 根据文档的说法，我们应该期待显示文本行，对吧？我的意思是我们并没有真正明确地给它做任何事情，所以除非在我们不知道的幕后发生什么事情，否则该功能不应该阻止。如果我们运行该程序，我们会得到预期的结果; 我们看到了文字。
 
@@ -67,17 +63,17 @@ return 0;
 [扰流器] [/扰流器] 如果我们运行该示例，我们将再次获得预期结果。我们没有看到文本和程序没有退出。不幸的是，我们现在无法使用我们现在知道的工具执行优雅的退出。有很多方法可以解决这个问题，但是我们暂时不会介绍它们，因为我们现在只是弄湿了脚。
 
 
-
+```
 int main( int argc, char * argv[] )
 {
-boost::asio::io_service io_service;
-boost::asio::io_service::work work( io_service );
-io_service.run();
-std::cout << "Do you reckon this line displays?" << std::endl;
-return 0;
+	boost::asio::io_service io_service;
+	boost::asio::io_service::work work( io_service );
+	io_service.run();
+	std::cout << "Do you reckon this line displays?" << std::endl;
+	return 0;
 }
 
-
+```
 
 
 
@@ -89,43 +85,40 @@ return 0;
 示例1c
 [扰流器] [/扰流器] 如果我们运行该示例，我们将看到输出到控制台的42行文本，然后程序退出。如果我们将工作对象分配给io_service怎么办？这种行为会改变吗？
 
-
+```
 int main( int argc, char * argv[] )
 {
-boost::asio::io_service io_service;
+	boost::asio::io_service io_service;
+	for( int x = 0; x < 42; ++x )
+	{
+		io_service.poll();
+		std::cout << "Counter: " << x << std::endl;
+	}
 
-for( int x = 0; x < 42; ++x )
-{
-io_service.poll();
-std::cout << "Counter: " << x << std::endl;
+	return 0;
 }
 
-return 0;
-}
-
-
+```
 
 
 
 示例1d
 [扰流器] [/扰流器] 当我们运行此程序时，我们得到与以前完全相同的输出和结果。这是因为当有更多工作要做时，poll函数不会阻塞。它只是执行当前的工作集然后返回。在实际程序中，循环将基于其他一些事件，但为了简单起见，我们只使用固定的一个。
 
-
+```
 int main( int argc, char * argv[] )
 {
-boost::asio::io_service io_service;
-boost::asio::io_service::work work( io_service );
-
-for( int x = 0; x < 42; ++x )
-{
-io_service.poll();
-std::cout << "Counter: " << x << std::endl;
+	boost::asio::io_service io_service;
+	boost::asio::io_service::work work( io_service );
+	for( int x = 0; x < 42; ++x )
+	{
+		io_service.poll();
+		std::cout << "Counter: " << x << std::endl;
+	}
+	return 0;
 }
 
-return 0;
-}
-
-
+```
 
 
 
@@ -141,18 +134,16 @@ return 0;
 
 int main( int argc, char * argv[] )
 {
-  boost::asio::io_service io_service;
-  boost::shared_ptr< boost::asio::io_service::work > work(
-  new boost::asio::io_service::work( io_service )
-);
+	boost::asio::io_service io_service;
+	boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( io_service ));
 
-work.reset();
+	work.reset();
 
-io_service.run();
+	io_service.run();
 
-std::cout << "Do you reckon this line displays?" << std::endl;
+	std::cout << "Do you reckon this line displays?" << std::endl;
 
-return 0;
+	return 0;
 }
 
 
@@ -164,7 +155,7 @@ return 0;
 例1f
 [扰流器] [/扰流器] 这个例子介绍了停止
 
-
+```
 boost::asio::io_service io_service;
 
 void WorkerThread()
@@ -196,7 +187,7 @@ worker_threads.join_all();
 return 0;
 }
 
-
+```
 
 会员功能。停止功能将向io_service发出应该停止所有工作的信号，因此在当前一批工作完成后，将不再进行任何工作。此示例中的另一个更改是io_service对象现在已成为全局对象。这只是为了保持简单，因为必须使用更复杂的机制。如果我们运行程序，我们在控制台上获得4个线程启动消息，在我们点击返回之后，我们按预期获得四个线程完成消息。
 
@@ -215,7 +206,7 @@ return 0;
 示例2a
 [扰流器] [/扰流器] 如果我们运行程序，我们将看不到输出。这是因为我们创建了一个函数调用对象，但实际上并没有调用它。要调用它，我们只需使用对象的（）运算符。示例2b [扰流器] [/扰流器] 现在，当我们运行示例时，我们看到输出！如果我们有参数通过怎么办？添加它们也很容易。例2c [剧透] [/剧透]
 
-
+```
 void F1()
 {
 std::cout << __FUNCTION__ << std::endl;
@@ -226,8 +217,9 @@ int main( int argc, char * argv[] )
 boost::bind( &F1 );
 return 0;
 }
+```
 
-
+```
 void F1()
 {
 std::cout << __FUNCTION__ << std::endl;
@@ -238,25 +230,20 @@ int main( int argc, char * argv[] )
 boost::bind( &F1 )();
 return 0;
 }
+```
 
-
-
-
-
-
-
+```
 void F2( int i, float f )
 {
 std::cout << "i: " << i << std::endl;
 std::cout << "f: " << f << std::endl;
 }
-
 int main( int argc, char * argv[] )
 {
 boost::bind( &F2, 42, 3.14f )();
 return 0;
 }
-
+```
 
 如果我们运行程序，我们将看到预期的输出。我们也可以轻松地将变量值替换为变量。这里还有一些重要的事情需要注意。参数属于函数对象，不通过调用操作符传递！当我们将参数与函数绑定在一起时，我们必须完全匹配签名，否则我们将获得大量难以阅读的错误，这些错误最初难以查看。当我们使用boost :: bind获取错误时，我们需要比较函数声明和用于检查任何类型不匹配的参数。
 我们在boost :: bind的崩溃过程中的最后一个例子将使用类成员函数的bind来显示。此示例与之前类似，但有一个重要区别。
@@ -264,25 +251,25 @@ return 0;
 例2d
 [剧透] [/剧透] 我们必须传递类对象的地址才能在类函数之后调用！如果我们从类中调用bind，那么我们可以使用this指针或者随后使用shared_from_this（）如果我们的类支持它。请注意，在所有这些示例中，我们只是使用（）运算符来调用对象。实际上，如果我们接收一个boost :: bind对象来实际调用，我们只会这样做。否则，我们只需使用普通语义来调用该函数！请务必参考boost :: bind文档以获取更多信息和参考。
 
-
+```
 class MyClass
 {
 public:
-void F3( int i, float f )
-{
-std::cout << "i: " << i << std::endl;
-std::cout << "f: " << f << std::endl;
-}
+   void F3( int i, float f )
+   {
+        out << "i: " << i << std::endl;
+        std::cout << "f: " << f << std::endl;
+   }
 };
 
 int main( int argc, char * argv[] )
 {
-MyClass c;
-boost::bind( &MyClass::F3, &c, 42, 3.14f )();
-return 0;
+    MyClass c;
+    boost::bind( &MyClass::F3, &c, 42, 3.14f )();
+    return 0;
 }
 
-
+```
 
 
 现在已经快速引入了boost :: bind，我们还必须讨论另一个重要的概念。在线程boost :: asio示例中，io_service对象变为全局并移动到程序的顶部。对于任何模块化和可重复使用的代码，这是不希望的。但是，如果我们尝试将io_service与boost :: bind一起使用，我们将得到一个不可复制的错误，因为无法复制io_service，这就是boost :: bind在幕后为我们所做的。为了解决这个问题，我们必须再次使用shared_ptr。
@@ -293,15 +280,14 @@ shared_ptr是一个引用计数的智能指针，因此它是可复制的，因�
 例2e
 [剧透]
 
+[/剧透]
 
- [/剧透]
-
-
+```
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
-std::cout << "Thread Start\n";
-io_service->run();
-std::cout << "Thread Finish\n";
+    std::cout << "Thread Start\n";
+    io_service->run();
+    std::cout << "Thread Finish\n";
 }
 
 int main( int argc, char * argv[] )
@@ -333,7 +319,7 @@ worker_threads.join_all();
 
 return 0;
 }
-
+```
 
 很酷，对吧？我们可以在io_service上使用shared_ptr使其可复制，这样我们就可以将它绑定到我们用作线程处理程序的工作线程函数。当我们运行程序时，我们应该得到与以前完全相同的行为。在这一点上，强烈建议阅读更多关于boost :: bind，shared_ptr，甚至已经涵盖的boost :: asio主题，如果他们感觉不太清楚。我们很快就会大量使用它们！
 
@@ -344,7 +330,7 @@ std :: cout对象是一个全局对象。一次从不同的线程写入它可能
 
 例2f
 
-
+```
 boost::mutex global_stream_lock;
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
@@ -383,7 +369,7 @@ worker_threads.join_all();
 
 return 0;
 }
-
+```
 
 了解互斥对象的基础知识也很重要。如果我们锁定一次，我们必须在完成后立即解锁。我们不能递归锁定这种特定类型的互斥锁，尽管还有其他类型允许这种情况。如果我们这样做，线程就会死锁，这是我们永远不想发生的事情。当我们必须等待全局输出锁定时，并发性的许多好处都会减少，但是为了使用正确的多线程代码，它现在是必须的。最终，我们将希望实现我们自己的自定义日志记录方案，以避免此类问题，但我们可以稍后解决该问题。
 
@@ -404,7 +390,7 @@ Boost :: bind肯定提供了很大的灵活性，但是在使用生产代码之�
 例3a
 [扰流板] [/扰流板]
 
-
+```
 boost::mutex global_stream_lock;
 
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
@@ -479,7 +465,7 @@ worker_threads.join_all();
 
 return 0;
 }
-
+```
 
 在这个例子中，从main开始，我们通过post函数将3个函数对象发布到io_service。
 在这种特殊情况下，由于当前线程没有调用io_service run或poll函数，dispatch也会调用post函数而不立即执行代码。
@@ -492,7 +478,7 @@ return 0;
 例3b
 [扰流板] [/扰流板]
 
-
+```
 boost::mutex global_stream_lock;
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
@@ -555,7 +541,7 @@ worker_threads.join_all();
 
 return 0;
 }
-
+```
 
 如果我们运行该程序，我们应该在这里看到问题。我们想要一个按顺序显示事件，但它却出了问题。这是因为dispatch用于某些事件并发布给其他事件。即使排队的其他待处理事件，也可以从当前工作线程执行调度事件。发布的事件必须等到处理程序完成才允许执行。编程时请记住这一点，如果我们依赖于此类事件的顺序，我们可以轻松地将自己编码为严重的错误！
 
@@ -606,76 +592,65 @@ async_op_2（...，s.wrap（b））;
 例4a
 [扰流板] [/扰流器] 我电脑上的输出如下：[扰流板] [/扰流板]
 
-
+```
 boost::mutex global_stream_lock;
 
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Start" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Start" << std::endl;
+    global_stream_lock.unlock();
 
-io_service->run();
+    io_service->run();
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Finish" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Finish" << std::endl;
+    global_stream_lock.unlock();
 }
 
 void PrintNum( int x )
 {
-std::cout << "[" << boost::this_thread::get_id()
-<< "] x: " << x << std::endl;
+    std::cout << "[" << boost::this_thread::get_id()<< "] x: " << x << std::endl;
 }
 
 int main( int argc, char * argv[] )
 {
-boost::shared_ptr< boost::asio::io_service > io_service(
-new boost::asio::io_service
-);
-boost::shared_ptr< boost::asio::io_service::work > work(
-new boost::asio::io_service::work( *io_service )
-);
-boost::asio::io_service::strand strand( *io_service );
+    boost::shared_ptr< boost::asio::io_service > io_service(new boost::asio::io_service);
+    boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( *io_service ));
+    boost::asio::io_service::strand strand( *io_service );
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] The program will exit when all work has finished." << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] The program will exit when all work has finished." << std::endl;
+    global_stream_lock.unlock();
 
-boost::thread_group worker_threads;
-for( int x = 0; x < 2; ++x )
-{
-worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    boost::thread_group worker_threads;
+    for( int x = 0; x < 2; ++x )
+    {
+        worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    }
+
+    boost::this_thread::sleep( boost::posix_time::milliseconds( 1000 ) );
+
+    //strand.post( boost::bind( &PrintNum, 1 ) );
+    //strand.post( boost::bind( &PrintNum, 2 ) );
+    //strand.post( boost::bind( &PrintNum, 3 ) );
+    //strand.post( boost::bind( &PrintNum, 4 ) );
+    //strand.post( boost::bind( &PrintNum, 5 ) );
+
+    io_service->post( boost::bind( &PrintNum, 1 ) );
+    io_service->post( boost::bind( &PrintNum, 2 ) );
+    io_service->post( boost::bind( &PrintNum, 3 ) );
+    io_service->post( boost::bind( &PrintNum, 4 ) );
+    io_service->post( boost::bind( &PrintNum, 5 ) );
+
+    work.reset();
+
+    worker_threads.join_all();
+
+    return 0;
 }
 
-boost::this_thread::sleep( boost::posix_time::milliseconds( 1000 ) );
-
-//strand.post( boost::bind( &PrintNum, 1 ) );
-//strand.post( boost::bind( &PrintNum, 2 ) );
-//strand.post( boost::bind( &PrintNum, 3 ) );
-//strand.post( boost::bind( &PrintNum, 4 ) );
-//strand.post( boost::bind( &PrintNum, 5 ) );
-
-io_service->post( boost::bind( &PrintNum, 1 ) );
-io_service->post( boost::bind( &PrintNum, 2 ) );
-io_service->post( boost::bind( &PrintNum, 3 ) );
-io_service->post( boost::bind( &PrintNum, 4 ) );
-io_service->post( boost::bind( &PrintNum, 5 ) );
-
-work.reset();
-
-worker_threads.join_all();
-
-return 0;
-}
-
-
-
-
-
+```
 
 [00154F88] The program will exit when all work has finished.
 [001532B0] Thread Start
@@ -721,62 +696,55 @@ boost::mutex global_stream_lock;
 
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id() << "] Thread Start" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id() << "] Thread Start" << std::endl;
+    global_stream_lock.unlock();
 
-io_service->run();
+    io_service->run();
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Finish" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Finish" << std::endl;
+    global_stream_lock.unlock();
 }
 
 void PrintNum( int x )
 {
-std::cout << "[" << boost::this_thread::get_id()
-<< "] x: " << x << std::endl;
+    std::cout << "[" << boost::this_thread::get_id()<< "] x: " << x << std::endl;
 }
 
 int main( int argc, char * argv[] )
 {
-boost::shared_ptr< boost::asio::io_service > io_service(
-new boost::asio::io_service
-);
-boost::shared_ptr< boost::asio::io_service::work > work(
-new boost::asio::io_service::work( *io_service )
-);
-boost::asio::io_service::strand strand( *io_service );
+    boost::shared_ptr< boost::asio::io_service > io_service(new boost::asio::io_service);
+    boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( *io_service ));
+    boost::asio::io_service::strand strand( *io_service );
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] The program will exit when all work has finished." << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] The program will exit when all work has finished." << std::endl;
+    global_stream_lock.unlock();
 
-boost::thread_group worker_threads;
-for( int x = 0; x < 4; ++x )
-{
-worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
-}
+    boost::thread_group worker_threads;
+    for( int x = 0; x < 4; ++x )
+    {
+        worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    }
 
-boost::this_thread::sleep( boost::posix_time::milliseconds( 100 ) );
-io_service->post( strand.wrap( boost::bind( &PrintNum, 1 ) ) );
-io_service->post( strand.wrap( boost::bind( &PrintNum, 2 ) ) );
+    boost::this_thread::sleep( boost::posix_time::milliseconds( 100 ) );
+    io_service->post( strand.wrap( boost::bind( &PrintNum, 1 ) ) );
+    io_service->post( strand.wrap( boost::bind( &PrintNum, 2 ) ) );
 
-boost::this_thread::sleep( boost::posix_time::milliseconds( 100 ) );
-io_service->post( strand.wrap( boost::bind( &PrintNum, 3 ) ) );
-io_service->post( strand.wrap( boost::bind( &PrintNum, 4 ) ) );
+    boost::this_thread::sleep( boost::posix_time::milliseconds( 100 ) );
+    io_service->post( strand.wrap( boost::bind( &PrintNum, 3 ) ) );
+    io_service->post( strand.wrap( boost::bind( &PrintNum, 4 ) ) );
 
-boost::this_thread::sleep( boost::posix_time::milliseconds( 100 ) );
-io_service->post( strand.wrap( boost::bind( &PrintNum, 5 ) ) );
-io_service->post( strand.wrap( boost::bind( &PrintNum, 6 ) ) );
+    boost::this_thread::sleep( boost::posix_time::milliseconds( 100 ) );
+    io_service->post( strand.wrap( boost::bind( &PrintNum, 5 ) ) );
+    io_service->post( strand.wrap( boost::bind( &PrintNum, 6 ) ) );
 
-work.reset();
+    work.reset();
 
-worker_threads.join_all();
+    worker_threads.join_all();
 
-return 0;
+    return 0;
 }
 
 
@@ -805,33 +773,29 @@ boost::mutex global_stream_lock;
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
 global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Start" << std::endl;
+std::cout << "[" << boost::this_thread::get_id()<< "] Thread Start" << std::endl;
 global_stream_lock.unlock();
 
 try
 {
-io_service->run();
+    io_service->run();
 }
 catch( std::exception & ex )
 {
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Exception: " << ex.what() << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Exception: " << ex.what() << std::endl;
+    global_stream_lock.unlock();
 }
 
 global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Finish" << std::endl;
+std::cout << "[" << boost::this_thread::get_id()<< "] Thread Finish" << std::endl;
 global_stream_lock.unlock();
 }
 
 void RaiseAnException( boost::shared_ptr< boost::asio::io_service > io_service )
 {
 global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] " << __FUNCTION__ << std::endl;
+std::cout << "[" << boost::this_thread::get_id()<< "] " << __FUNCTION__ << std::endl;
 global_stream_lock.unlock();
 
 io_service->post( boost::bind( &RaiseAnException, io_service ) );
@@ -841,29 +805,24 @@ throw( std::runtime_error( "Oops!" ) );
 
 int main( int argc, char * argv[] )
 {
-boost::shared_ptr< boost::asio::io_service > io_service(
-new boost::asio::io_service
-);
-boost::shared_ptr< boost::asio::io_service::work > work(
-new boost::asio::io_service::work( *io_service )
-);
+    boost::shared_ptr< boost::asio::io_service > io_service(new boost::asio::io_service);
+    boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( *io_service ));
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] The program will exit when all work has finished." << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] The program will exit when all work has finished." << std::endl;
+    global_stream_lock.unlock();
 
-boost::thread_group worker_threads;
-for( int x = 0; x < 2; ++x )
-{
-worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
-}
+    boost::thread_group worker_threads;
+    for( int x = 0; x < 2; ++x )
+    {
+        worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    }
 
-io_service->post( boost::bind( &RaiseAnException, io_service ) );
+    io_service->post( boost::bind( &RaiseAnException, io_service ) );
 
-worker_threads.join_all();
+    worker_threads.join_all();
 
-return 0;
+    return 0;
 }
 
 
@@ -874,73 +833,64 @@ return 0;
 例5b
 [扰流板] [/扰流板] 哦哦！当我们运行程序时，我们遇到了崩溃。通过调试，我们可以看到它是因为未捕获异常。这是因为错误变量方法不会将用户异常转换为错误，而是将boost :: asio异常转换。记住这一点非常重要！如果我们通过io_service传递我们自己的工作，我们必须遵守C ++异常编程概念。如果boost :: asio库生成错误，如果没有使用错误变量或者它将转换为错误变量，它将作为异常。根据我们的应用，我们会选择最适合我们需要的应用。
 
-
+```
 boost::mutex global_stream_lock;
 
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Start" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Start" << std::endl;
+    global_stream_lock.unlock();
 
-boost::system::error_code ec;
-io_service->run( ec );
+    boost::system::error_code ec;
+    io_service->run( ec );
 
-if( ec )
-{
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Exception: " << ec << std::endl;
-global_stream_lock.unlock();
-}
+    if( ec )
+    {
+        global_stream_lock.lock();
+        std::cout << "[" << boost::this_thread::get_id()<< "] Exception: " << ec << std::endl;
+        global_stream_lock.unlock();
+    }
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Finish" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Finish" << std::endl;
+    global_stream_lock.unlock();
 }
 
 void RaiseAnException( boost::shared_ptr< boost::asio::io_service > io_service )
 {
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] " << __FUNCTION__ << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] " << __FUNCTION__ << std::endl;
+    global_stream_lock.unlock();
 
-io_service->post( boost::bind( &RaiseAnException, io_service ) );
+    io_service->post( boost::bind( &RaiseAnException, io_service ) );
 
-throw( std::runtime_error( "Oops!" ) );
+    throw( std::runtime_error( "Oops!" ) );
 }
 
 int main( int argc, char * argv[] )
 {
-boost::shared_ptr< boost::asio::io_service > io_service(
-new boost::asio::io_service
-);
-boost::shared_ptr< boost::asio::io_service::work > work(
-new boost::asio::io_service::work( *io_service )
-);
+    boost::shared_ptr< boost::asio::io_service > io_service(new boost::asio::io_service);
+    boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( *io_service ));
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] The program will exit when all work has finished." << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] The program will exit when all work has finished." << std::endl;
+    global_stream_lock.unlock();
 
-boost::thread_group worker_threads;
-for( int x = 0; x < 2; ++x )
-{
-worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    boost::thread_group worker_threads;
+    for( int x = 0; x < 2; ++x )
+    {
+        worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    }
+
+    io_service->post( boost::bind( &RaiseAnException, io_service ) );
+
+    worker_threads.join_all();
+
+    return 0;
 }
 
-io_service->post( boost::bind( &RaiseAnException, io_service ) );
-
-worker_threads.join_all();
-
-return 0;
-}
-
-
+```
 
 
 为了进一步澄清我们是否正在使用io_service进行用户工作，如果工作可以生成异常，我们必须使用异常处理。如果我们仅将io_service用于boost :: asio函数，那么我们可以使用异常处理或错误变量。如果我们将io_service用于boost :: asio函数和用户工作，那么我们既可以使用两种方法，也可以只使用异常处理方法，但如果工作可以生成异常，则不仅可以使用错误变量。这应该非常简单。
@@ -950,51 +900,46 @@ return 0;
 例5c
 [扰流板] [/扰流板]
 
-
+```
 boost::mutex global_stream_lock;
 
 void WorkerThread( boost::shared_ptr< boost::asio::io_service > io_service )
 {
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Start" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Start" << std::endl;
+    global_stream_lock.unlock();
 
-while( true )
-{
-try
-{
-boost::system::error_code ec;
-io_service->run( ec );
-if( ec )
-{
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Error: " << ec << std::endl;
-global_stream_lock.unlock();
-}
-break;
-}
-catch( std::exception & ex )
-{
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Exception: " << ex.what() << std::endl;
-global_stream_lock.unlock();
-}
-}
+    while( true )
+    {
+        try
+        {
+            boost::system::error_code ec;
+            io_service->run( ec );
+            if( ec )
+            {
+                global_stream_lock.lock();
+                std::cout << "[" << boost::this_thread::get_id()<< "] Error: " << ec << std::endl;
+                global_stream_lock.unlock();
+            }
+            break;
+        }
+        catch( std::exception & ex )
+        {
+            global_stream_lock.lock();
+            std::cout << "[" << boost::this_thread::get_id()<< "] Exception: " << ex.what() << std::endl;
+            global_stream_lock.unlock();
+        }
+    }
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] Thread Finish" << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] Thread Finish" << std::endl;
+    global_stream_lock.unlock();
 }
 
 void RaiseAnException( boost::shared_ptr< boost::asio::io_service > io_service )
 {
 global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] " << __FUNCTION__ << std::endl;
+std::cout << "[" << boost::this_thread::get_id()<< "] " << __FUNCTION__ << std::endl;
 global_stream_lock.unlock();
 
 io_service->post( boost::bind( &RaiseAnException, io_service ) );
@@ -1004,31 +949,26 @@ throw( std::runtime_error( "Oops!" ) );
 
 int main( int argc, char * argv[] )
 {
-boost::shared_ptr< boost::asio::io_service > io_service(
-new boost::asio::io_service
-);
-boost::shared_ptr< boost::asio::io_service::work > work(
-new boost::asio::io_service::work( *io_service )
-);
+    boost::shared_ptr< boost::asio::io_service > io_service(new boost::asio::io_service);
+    boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( *io_service ));
 
-global_stream_lock.lock();
-std::cout << "[" << boost::this_thread::get_id()
-<< "] The program will exit when all work has finished." << std::endl;
-global_stream_lock.unlock();
+    global_stream_lock.lock();
+    std::cout << "[" << boost::this_thread::get_id()<< "] The program will exit when all work has finished." << std::endl;
+    global_stream_lock.unlock();
 
-boost::thread_group worker_threads;
-for( int x = 0; x < 2; ++x )
-{
-worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    boost::thread_group worker_threads;
+    for( int x = 0; x < 2; ++x )
+    {
+        worker_threads.create_thread( boost::bind( &WorkerThread, io_service ) );
+    }
+
+    io_service->post( boost::bind( &RaiseAnException, io_service ) );
+
+    worker_threads.join_all();
+
+    return 0;
 }
-
-io_service->post( boost::bind( &RaiseAnException, io_service ) );
-
-worker_threads.join_all();
-
-return 0;
-}
-
+```
 
 现在，当发生异常时，输出它并且工作线程返回处理工作。当调用stop成员函数或销毁工作对象时，run函数不再像我们之前看到的那样阻塞，因此循环退出然后线程结束。如果我们在异常示例中使用此概念，我们将看到事件的无限输出，因为我们总是将新事件发布到队列。显然，我们永远不会希望在真实的程序中出现这种情况。
 
@@ -1962,7 +1902,7 @@ return 0;
 
 [page]
 
-9. boost :: asio网络包装器（TCP）
+1. boost :: asio网络包装器（TCP）
 
 现在我们已经了解了使用boost :: asio库和一些简单的TCP网络方面的基础知识，我们可以看一下处理低级别内容的网络包装器。通过使用包装器，我们可以重用它并始终专注于应用程序逻辑，而不是重写网络代码。
 
