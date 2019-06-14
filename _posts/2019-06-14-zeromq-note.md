@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ZeroMq-(继续消息的网络服务组件)"
+title: "ZeroMq-(基于消息队列的网络库)"
 date: 2019-06-14
 tags: jvm
 ---
