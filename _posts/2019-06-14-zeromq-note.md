@@ -7,8 +7,8 @@ tags: jvm
 
 
 # 参考文章
-* [zero文档-中文](https://github.com/anjuke/zguide-cn)
-* [zero-官网](https://zeromq.org)
+* [zeromq-中文指南](https://github.com/anjuke/zguide-cn)
+* [zeromq-官网](https://zeromq.org)
 * [zeromq研究与分析](https://www.cnblogs.com/rainbowzc/p/3357594.html)
 
  
