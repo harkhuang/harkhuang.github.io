@@ -130,7 +130,7 @@ int main( int argc, char * argv[] )
 例1e
 [剧透] [/剧透] 如果我们运行程序，我们将看到显示的文本行。这有效地向我们展示了如何从io_service中删除工作对象。在我们希望优雅地完成所有待处理工作但不能过早停止工作的情况下，此类功能非常重要。虽然有一点需要注意，但有一点需要注意。
 
-
+```
 int main( int argc, char * argv[] )
 {
 	boost::asio::io_service io_service;
@@ -145,7 +145,7 @@ int main( int argc, char * argv[] )
 	return 0;
 }
 
-
+```
 
 
 
@@ -166,24 +166,24 @@ std::cout << "Thread Finish\n";
 
 int main( int argc, char * argv[] )
 {
-boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( io_service ));
-std::cout << "Press [return] to exit." << std::endl;
-boost::thread_group worker_threads;
-for( int x = 0; x < 4; ++x )
-{
-worker_threads.create_thread( WorkerThread );
-}
+    boost::shared_ptr< boost::asio::io_service::work > work(new boost::asio::io_service::work( io_service ));
+    std::cout << "Press [return] to exit." << std::endl;
+    boost::thread_group worker_threads;
+    for( int x = 0; x < 4; ++x )
+    {
+        worker_threads.create_thread( WorkerThread );
+    }
 
-std::cin.get();
+    std::cin.get();
 
-// 停止asio集成服务
-io_service.stop();
+    // 停止asio集成服务
+    io_service.stop();
 
 
-// 异步回收线程资源
-worker_threads.join_all();
+    // 异步回收线程资源
+    worker_threads.join_all();
 
-return 0;
+    return 0;
 }
 
 ```
