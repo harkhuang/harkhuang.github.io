@@ -1,6 +1,6 @@
 ###  boost asio 前摄器模型 
 
-![proactor](./proactor.png)
+![proactor](https://github.com/harkhuang/harkhuang.github.io/_posts/proactor.png)
 
 
 
