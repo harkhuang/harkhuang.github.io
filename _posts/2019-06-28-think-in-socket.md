@@ -6,6 +6,6 @@ categories: jekyll update
 ---
 
 
-(socket tutorial)[https://realpython.com/python-sockets/#echo-client]
+(socket tutorial)[http://www.cs.rpi.edu/~moorthy/Courses/os98/Pgms/socket.html]
 
 (python socket )[https://realpython.com/python-sockets/#echo-client]
