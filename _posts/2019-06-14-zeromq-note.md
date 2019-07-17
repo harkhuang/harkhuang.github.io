@@ -41,6 +41,20 @@ int zmq_proxy (const void *frontend, const void *backend, const void *capture);*
 ```
 
 
+
+
+zeromq 文章提到的模式 可按照通信种类  大致分为两种
+
+1 . 异步    router  为异步提供了数据指向.(但是我觉得概括并不准确)
+            router + req 也能提供服务   为多个req提供服务
+            异步通信最重要的是记录线程id 和  发现线程的状态(内部实现通过掩码+信号方式)
+            理解大部分是通过我对zmq猜测的.内部实现并没有参考实际代码.  阅读请谨慎,本文并非高清无码.
+
+2.  同步   dealer 均衡分发事件 
+
+
+
+
 // 建立代理后   ZMQ_ROUTER  或者使用ZMQ_REQ同样也是标记来源
 // ZMQ_DEALER模式可以被均衡的分配给后面的执行函数进行回调
 
