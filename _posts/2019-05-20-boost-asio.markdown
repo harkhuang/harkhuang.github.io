@@ -118,8 +118,8 @@ boost asio toturial（对asio介绍，准确完整）
 https://www.gamedev.net/blogs/entry/2249317-a-guide-to-getting-started-with-boostasio/
 
 
-
-
+一个支持异步读写的socket 客户端 
+包括实用的定时器功能和回调功能
 
 ```
 
