@@ -12,8 +12,6 @@ C++中实现数据共享的5种方式：
 这种共享方式，直接影响到数据安全、程序代码重用和扩充。
 所以，在程序设计中，应可能少的使用这种共享方式。
 
-
-
 -----
 2. 通过类的数据成员共享数据
 C++中类内部封装的数据成员提供了同一类的函数成员之间进行数据共享机制 。
@@ -27,10 +25,10 @@ C++中类内部封装的数据成员提供了同一类的函数成员之间进�
 Class Clock//时钟类的声明
 {
 public：//#b部接口，公有数据成员函数
-void SetTime(int NewH =0，int NewM =0，int News=0)；
-void ShowTime()；
+    void SetTime(int NewH =0，int NewM =0，int News=0)；
+    void ShowTime()；
 private：//私有数据成员 ．
-int Hour，Minute，Second；//在类的成员函数之间共享
+    int Hour，Minute，Second；//在类的成员函数之间共享
 }；
 ```
 ------
