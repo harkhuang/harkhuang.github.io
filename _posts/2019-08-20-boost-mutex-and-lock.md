@@ -40,14 +40,12 @@ void reader()
   // do work here, without anyone having exclusive access
 }
 
-
 /// 条件变量 清晰可见
 void conditional_writer()
 {
   boost::upgrade_lock< boost::shared_mutex > lock(_access);
   // do work here, without anyone having exclusive access
   // 此处操作粒度明显粗于但存的写锁  速度相对较快
-
 
   // 升级锁为 独享写锁
   if (something) {
