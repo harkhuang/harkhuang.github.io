@@ -45,6 +45,72 @@ int main()
 ```
 
 
+
+
+
+
+
+```
+
+void produce()
+{
+    for (int i = 1; i <= 100; ++i)
+        q.push(i);
+    std::cout << "生产一半" << std::endl;
+
+    Sleep(2000);
+    for (int i = 1; i <= 100; ++i)
+        q.push(i);
+
+    std::cout << "生产另外一半" << std::endl;
+
+}
+
+void consume()
+{
+    int i;
+    while (q.pop(i))
+    {
+   
+        sum += i;
+    }
+    std::cout << "消费" << std::endl;
+
+}
+
+void test_lock_free()
+{
+    std::thread t1{ produce };
+    std::thread t2{ consume };
+    t1.join();
+    t2.join();
+    consume();
+    std::cout << sum << '\n';
+}
+
+
+
+```
+```
+输出如下:
+生产一半
+消费
+生产另外一半
+消费
+10100
+```
+
+
+独占锁  无锁
+在使用期间不可以别其他线程通过线程切换的方法获取临界变量
+
+如果在使用生产者消费者模式中 我们使用这种无锁队列  那么可以节省程序切换带来的不必要的开销
+不允许频繁的切换锁  而带来的不必要开销
+
+
+
+
+
 Example 46.1 uses the container boost::lockfree::spsc_queue. The first thread, which executes the function produce(), adds the numbers 1 to 100 to the container. The second thread, which executes consume(), reads the numbers from the container and adds them up in sum. Because the container boost::lockfree::spsc_queue explicitly supports concurrent access from two threads, it isn’t necessary to synchronize the threads.
 
 Please note that the function consume() is called a second time after the threads terminate. This is required to calculate the total of all 100 numbers, which is 5050. Because consume() accesses the queue in a loop, it is possible that it will read the numbers faster than they are inserted by produce(). If the queue is empty, pop() returns false. Thus, the thread executing consume() could terminate because produce() in the other thread couldn’t fill the queue fast enough. If the thread executing produce() is terminated, then it’s clear that all of the numbers were added to the queue. The second call to consume() makes sure that numbers that may not have been read yet are added to sum.
