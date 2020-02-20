@@ -37,11 +37,11 @@ The library provides a MSVC15 solution located in msvc15 that you can use if you
 
 In order to build the library, you have to open a terminal and follow these steps:
 
-# Clone the project
+- Clone the project
 git clone https://github.com/Cylix/cpp_redis.git
-# Go inside the the project directory
+- Go inside the the project directory
 cd cpp_redis
-# Get tacopie submodule
+- Get tacopie submodule
 git submodule init && git submodule update
 Then, you can open the cpp_redis solution in the msvc15 directory of the repository and build the solution in the configuration (Debug, Release, ...) and for the platform (32, 64) of your choice.
 
@@ -70,15 +70,15 @@ CMake (throw command-line)
 VS 2012+ (for C++11 support)
 The library is based on cmake for the compilation. In order to build the library, you have to open a terminal and follow these steps:
 
-# Clone the project
+- Clone the project
 git clone https://github.com/Cylix/cpp_redis.git
-# Go inside the the project directory
+- Go inside the the project directory
 cd cpp_redis
-# Get tacopie submodule
+- Get tacopie submodule
 git submodule init && git submodule update
-# Generate the VC++ solution using CMake
+- Generate the VC++ solution using CMake
 cmake .
-# Generate the VC++ solution using CMake, for x64 platform
+- Generate the VC++ solution using CMake, for x64 platform
 cmake . -G "Visual Studio 15 2017 Win64" # Or any other valid platform/compiler version.
 This will generate a cpp_redis.sln file (that is, a Visual Studio solution).
 
