@@ -38,11 +38,19 @@ The library provides a MSVC15 solution located in msvc15 that you can use if you
 In order to build the library, you have to open a terminal and follow these steps:
 
 - Clone the project
+```
 git clone https://github.com/Cylix/cpp_redis.git
+```
 - Go inside the the project directory
+```
 cd cpp_redis
+```
 - Get tacopie submodule
+```
 git submodule init && git submodule update
+```
+
+
 Then, you can open the cpp_redis solution in the msvc15 directory of the repository and build the solution in the configuration (Debug, Release, ...) and for the platform (32, 64) of your choice.
 
 Note that this solution is configured to target Windows 8.1 with the build tools v140.
