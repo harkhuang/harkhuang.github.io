@@ -6,8 +6,21 @@ categories: jekyll update
 ---
 
 
-(安装文档)[https://github.com/Cylix/cpp_redis/wiki/Installation]
-(https://github.com/Cylix/cpp_redis/wiki/Installation)[安装文档]
+# 参考文章
+* [安装文档](ttps://github.com/Cylix/cpp_redis/wiki/Installation)
+ 
+
+在cmake中依赖第三方库的工程在构件windows项目中总会遇到问题
+
+
+
+使用 git submodule 获取依赖库的方式
+
+```
+git submodule init && git submodule update
+```
+
+
 
 Windows Install
 Simon Ninon edited this page on 22 Oct 2017 · 9 revisions
