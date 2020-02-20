@@ -1,3 +1,13 @@
+---
+layout: post
+title:  "cpp_redis安装手册"
+date:   2020-03-20 20:00:51 +0800
+categories: jekyll update
+---
+
+
+安装文档()[https://github.com/Cylix/cpp_redis/wiki/Installation]
+
 Windows Install
 Simon Ninon edited this page on 22 Oct 2017 · 9 revisions
 Requirement
@@ -90,5 +100,3 @@ If so, manually add it the link as follow: (tacopie)Project->Properties->Librari
 
 Need more information? Contact me.
 
-
-安装文档()[https://github.com/Cylix/cpp_redis/wiki/Installation]
