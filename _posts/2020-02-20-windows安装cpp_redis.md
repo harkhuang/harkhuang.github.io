@@ -6,7 +6,8 @@ categories: jekyll update
 ---
 
 
-安装文档()[https://github.com/Cylix/cpp_redis/wiki/Installation]
+(安装文档)[https://github.com/Cylix/cpp_redis/wiki/Installation]
+(https://github.com/Cylix/cpp_redis/wiki/Installation)[安装文档]
 
 Windows Install
 Simon Ninon edited this page on 22 Oct 2017 · 9 revisions
