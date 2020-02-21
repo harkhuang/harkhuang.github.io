@@ -1,124 +1,50 @@
 ---
 layout: post
-title:  "cpp_redis安装手册"
-date:   2020-03-20 20:00:51 +0800
+title:  "关于字符集的思考"
+date:   2020-03-21 20:00:51 +0800
 categories: jekyll update
 ---
 
 
-# 参考文章
-* [安装文档](ttps://github.com/Cylix/cpp_redis/wiki/Installation)
+> 工作中用到了很多次字符集转换问题在此做一个总结
+
+###  遇到的现象
+
+在使用protobuf时候utf-8字符集时候  总会有 \u0f23 \u1a4a 这样的字符出现
+同理在使用python爬虫获取内容的时候中文被显示成 \u0f23 \u1a4a
+
+看到这样的字符提问:
+1.这是什么字符集?
+2.为什么用二进制表示?
+3.\u表示什么?“unicode”还是“GBK”?
+
+```
+ "name": "保证金收益货币市场基金",
+  "name-UTF8toUNICODE": "\u4fdd\u8bc1\u91d1\u6536\u76ca\u8d27\u5e01\u5e02\u573a\u57fa\u91d1",
+```
+
+我先猜测是gbk但是转后报错
+再猜测是unicode转译后仍然报错(因为我要用 string去表示wstring) unicode通常和wstring绑定的.
+那这串文字到底是什么呢?
+`"\u4fdd\u8bc1\u91d1\u6536\u76ca\u8d27\u5e01\u5e02\u573a\u57fa\u91d1"`
+答案是: ***被转译成byte的unicode字符集***
+
+所以在我们测试protobuf时候会有一些转译成byte类型的中文被显示出来 这样的好处就是没有乱码
+同样在使用python去表示一些字符的时候由于python不想破坏原有字符集 ,做了个模糊处理,所有字符都按照二进制输出
+这样确实可以做好一些兼容的问题.
+
+
+unicode 通常使用wstring存储   2字节表示一个字符  好处就是容量够大 够全世界到文字存储
  
 
-在cmake中依赖第三方库的工程在构件windows项目中总会遇到问题
 
+先说下总体的集合大小
+ASCII (127个字母)    :所有字符占用一个字节
+UTF-8 : unicode的缩减版本,涵盖常用文字(各个国家文字) ,英文一个字节,中文三个字节(常用中文字符用utf-8编码占用3个字节（大约2万多字)
+GBK2312(常用中文)   :中文占用两个字节  ,英文(半角)一个字节
+GBK(涵盖非常用中文)  : 中文占用两个字节,英文(半角)一个字节 
+unicode(<utf-16>各个国家文字) : ***所有字符占用两个字节***
 
-
-使用 git submodule 获取依赖库的方式
-
-```
-git submodule init && git submodule update
-```
-
-
-
-Windows Install
-Simon Ninon edited this page on 22 Oct 2017 · 9 revisions
-Requirement
-C++11
-Compiling and installing
-Visual Studio Solution
-This documentation aims to provide the building steps for a Windows environment containing the following tools:
-
-Appropriate terminal/shell
-Git (throw command-line)
-VS 2012+ (for C++11 support)
-The library provides a MSVC15 solution located in msvc15 that you can use if you want to quickly build the library without CMake.
-
-In order to build the library, you have to open a terminal and follow these steps:
-
-- Clone the project
-```
-git clone https://github.com/Cylix/cpp_redis.git
-```
-- Go inside the the project directory
-```
-cd cpp_redis
-```
-- Get tacopie submodule
-```
-git submodule init && git submodule update
-```
-
-
-Then, you can open the cpp_redis solution in the msvc15 directory of the repository and build the solution in the configuration (Debug, Release, ...) and for the platform (32, 64) of your choice.
-
-Note that this solution is configured to target Windows 8.1 with the build tools v140.
-
-If you need any other settings or if this configuration is not compatible with your environment, you will need to re-configure the solution:
-
-right click on the cpp_redis solution in visual studio
-then properties
-finally update the corresponding target and build tools version (or any other relevant settings)
-Otherwise, you will need to build cpp_redis using CMake.
-
-Once built, you can update your VC++ project configuration:
-
-VC++ Directories > Include Directories: Add CPP_REDIS_FOLDER_PATH/includes and CPP_REDIS_FOLDER_PATH/tacopie/includes (with the appropriate value of CPP_REDIS_FOLDER_PATH).
-VC++ Directories > Library Directories: Add CPP_REDIS_FOLDER_PATH/{Debug|Release|...}/ (with the appropriate value of CPP_REDIS_FOLDER_PATH and configuration).
-Linker > Input > Additional Dependencies: Add cpp_redis.lib and tacopie.lib.
-Finally, you just have to include <cpp_redis/cpp_redis> in your source files.
-
-CMake
-This documentation aims to provide the building steps for a Windows environment containing the following tools:
-
-Appropriate terminal/shell
-Git (throw command-line)
-CMake (throw command-line)
-VS 2012+ (for C++11 support)
-The library is based on cmake for the compilation. In order to build the library, you have to open a terminal and follow these steps:
-
-- Clone the project
-git clone https://github.com/Cylix/cpp_redis.git
-- Go inside the the project directory
-cd cpp_redis
-- Get tacopie submodule
-git submodule init && git submodule update
-- Generate the VC++ solution using CMake
-cmake .
-- Generate the VC++ solution using CMake, for x64 platform
-cmake . -G "Visual Studio 15 2017 Win64" # Or any other valid platform/compiler version.
-This will generate a cpp_redis.sln file (that is, a Visual Studio solution).
-
-Open this file with Visual Studio.
-Build the solution in the configuration (Debug, Release, ...) and for the platform (32, 64) of your choice.
-Then, you can update your VC++ project configuration:
-
-VC++ Directories > Include Directories: Add CPP_REDIS_FOLDER_PATH/includes and CPP_REDIS_FOLDER_PATH/tacopie/includes (with the appropriate value of CPP_REDIS_FOLDER_PATH).
-VC++ Directories > Library Directories: Add CPP_REDIS_FOLDER_PATH/{Debug|Release|...}/ (with the appropriate value of CPP_REDIS_FOLDER_PATH and configuration).
-Linker > Input > Additional Dependencies: Add cpp_redis.lib and tacopie.lib.
-Finally, you just have to include <cpp_redis/cpp_redis> in your source files.
-
-Customizing compilation and installation
-Please refer to this page of the wiki.
-
-Troubleshooting
-Runtime Library
-If you have a warning like the following when trying to link the library with your project:
-
-error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MDd_DynamicDebug'
-This is because there is a conflict between the Runtime Library used to compile cpp_redis and the Runtime Library used by another library you are using.
-
-By default, cpp_redis is compiled using /MT mode, but you can use the MSVC_RUNTIME_LIBRARY_CONFIG cmake variable to override this setting.
-
-Please refer to this page of the wiki.
-
-ws2_32
-Sometimes, it appears that CMake does not get along very well with Visual Studio and fails to generate project files with linkage against ws2_32.
-
-If you get errors such as undefined external symbol _impl_socket, this is probably the case.
-
-If so, manually add it the link as follow: (tacopie)Project->Properties->Librarian->Additional Dependencies->(input)ws2_32.lib
-
-Need more information? Contact me.
-
+ps:
+但超大字符集中的更大多数汉字要占4个字节（在unicode编码体系中，U+20000开始有5万多汉字）。
+GBK、GB2312收编的汉字占2个字节，严格地用iso8859-1无法表示汉字，只能转为问号。
