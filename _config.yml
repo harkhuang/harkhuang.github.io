@@ -22,7 +22,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   你总不枉在这世界上活了一场。
   有了这样的认识,你就会珍重生活,而不会玩世不恭；
   同时,也会给人自身注入一种强大的内在力量。 --路遥 <<平凡的世界>>
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "http://harkhuang.cn/" # the subpath of your site, e.g. /blog
 url: "harkhuang.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: harkWONG
 github_username:  harkhuang
