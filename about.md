@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Hey !  Welcome to my blog:)
+title: Hey !Welcome to my blog:)
 permalink: /about/
 ---
 
