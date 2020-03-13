@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "cpp_redis安装手册"
-date:   2020-03-20 20:00:51 +0800
+title:  "cpp_redis build in windows by git submodule"
+date:   2020-03-13 20:00:51 +0800
 categories: jekyll update
 ---
 
