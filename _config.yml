@@ -45,3 +45,11 @@ plugins:
 
 # 开启分页功能
 paginate: 5
+
+
+leancolud:
+
+ leancloud:
+  enable: true
+  app_id:  aEIR33wNPpzgmroOXwXVSnm7-gzGzoHsz
+  app_key: t3xHrP0P2eCrnHOtmFVeVR2v
