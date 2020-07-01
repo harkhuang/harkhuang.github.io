@@ -19,7 +19,7 @@ name: hark's blog
 description: >- # this means to ignore newlines until "baseurl:"
   生活不能等待别人来安排,要自已去争取和奋斗;而不论其结果是喜是悲,但可以慰藉的是,你总不枉在这世界上活了一场。有了这样的认识,你就会珍重生活,而不会玩世不恭;同时,也会给人自身注入一种强大的内在力量。    
   ---- 路遥 <<平凡的世界>>
-  
+
 title: A Noob Coder's NoteBook
 
 email: shiyanhk@gmail.com
@@ -46,7 +46,7 @@ paginate: 3
 
 highlighter: rouge
 markdown: kramdown
-theme: minima
+#theme: minima
 plugins:
   - jekyll-feed
 
