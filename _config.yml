@@ -13,40 +13,21 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-
-name: hark's blog
-
-description: >- # this means to ignore newlines until "baseurl:"
-  生活不能等待别人来安排,要自已去争取和奋斗;而不论其结果是喜是悲,但可以慰藉的是,你总不枉在这世界上活了一场。有了这样的认识,你就会珍重生活,而不会玩世不恭;同时,也会给人自身注入一种强大的内在力量。    
-  ---- 路遥 <<平凡的世界>>
-
-title: A Noob Coder's NoteBook
-
+ 
+title: "A Noob Coder"
 email: shiyanhk@gmail.com
-
-baseurl: /jekyll-clean   # the subpath of your site, e.g. /blog
-url: harkhuang.github.io  # the base hostname & protocol for your site, e.g. http://example.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "harkhuang.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: harkWONG
 github_username:  harkhuang
 
-# The 'comments' setting enables comments. You'll need to select either
-# disqus or isso below to choose a comment system. Individual posts can
-# override 'comments' to disable on a post-by-post basis.
-comments: true
-
 # Build settings
-# Set this to your public isso URL to enable comments via isso. Set to '' to disable isso.
-isso: ''
-
-# Set this to your disqus shortname to enable comments via disqus. Set to '' to disable disqus.
-disqus: ''
-
-permalink: /:year/:month/:title
-paginate: 3
-
-highlighter: rouge
 markdown: kramdown
-#theme: minima
+theme: minima
 plugins:
   - jekyll-feed
 
@@ -61,17 +42,3 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-
-
-# 开启分页功能
-paginate: 5
-gems: ['jekyll-paginate']
-
-exclude: ['README.md', 'LICENSE']
-
-leancolud:
-
- leancloud:
-  enable: true
-  app_id:  aEIR33wNPpzgmroOXwXVSnm7-gzGzoHsz
-  app_key: t3xHrP0P2eCrnHOtmFVeVR2v
