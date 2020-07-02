@@ -1,3 +1,15 @@
+---
+layout: post
+title:  "think in mapreduce"
+date:   2018-08-26
+desc:  "基于mapreduce模型的分布式计算基础程序设计的思考"
+keywords: "分布式，协程，golang，rpc，一致性"
+categories: [技术]
+tags: [分布式,技术]
+icon: icon-html
+---
+
+
 # 实现mapreduce模型框架
 
 ### 基础功能
