@@ -1,16 +1,14 @@
 
 ---
 layout: post
-title:  "金融危机的到来的思考"
+title:  "金融危机来了吗？"
 date:   2020-03-17 01:59:51 +0800
-desc: "Quick test on writing code snippets in a blog post"
+desc: "金融危机之前的思考和准备"
 keywords: "金融,央行,美联储,黄金,货币宽松,思考"
 categories: [HTML]
 tags: [金融,思考]
 icon: icon-html
 ---
-
-
 
 ### 3月17日事件
 美股10天内发生了三次的熔断,一周内时间从28000直接到21000,回顾美股历史8年一次高峰,这次的高距离上次的高峰2009年11年距离2012年正好是八年.
