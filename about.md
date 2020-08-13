@@ -1,7 +1,7 @@
 ---
 layout: page
-title: this is page 2
-permalink: /index/
+title: Hey !  Welcome to my blog:)
+permalink: /about/
 ---
 
  

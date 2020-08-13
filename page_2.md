@@ -1,13 +1,10 @@
 ---
 layout: page
 title: this is page 2
-permalink: /index/
+permalink: /page2/
 ---
 
- 
-My github:
-[https://github.com/harkhuang](https://github.com/harkhuang)
 
-My mail:
-[shiyanhk@gmail.com](shiyanhk@gmail.com)
- 
+
+
+hey , guys .
