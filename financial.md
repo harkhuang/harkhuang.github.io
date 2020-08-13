@@ -1,6 +1,6 @@
 ---
 layout: page
-title: financial
+title: Financial
 permalink: /financial/
 ---
 
