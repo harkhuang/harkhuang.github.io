@@ -1,2 +1,4 @@
-# kblog
-Hey Welcome to my blog
+
+[ Blog Index ](https://harkhuang.cn/)
+
+
