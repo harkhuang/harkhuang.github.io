@@ -175,3 +175,102 @@ cond(no)->op
 [5]: http://adrai.github.io/flowchart.js/
 [6]: https://github.com/benweet/stackedit
 
+
+
+
+
+
+
+
+
+
+
+[//]: # (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd> 重启电脑)
+
+
+[//]: # (哈哈我是最强注释，不会在浏览器中显示。)
+[^_^]: # (哈哈我是最萌注释，不会在浏览器中显示。)
+[//]: <> (哈哈我是注释，不会在浏览器中显示。)
+[comment]: <> (哈哈我是注释，不会在浏览器中显示。)
+
+- [ ] 任务一 未做任务 `- + 空格 + [x]`
+- [x] 任务二 已做任务 `- + 空格 + [x]`
+
+
+我经常去的几个网站[Google][1]、[Leanote][2]。
+
+[asddsasd][我的]
+[择势勤](https://www.jianshu.com/u/16d77399d3a7 "择势勤")
+[1]:http://www.google.com 
+[2]:http://www.leanote.com
+
+[我的]:http://www.leanote.com
+
+
+## 0. 目录{ #index }
+
+ 1. 有序列表项 一
+ 2. 有序列表项 二
+ 3. 有序列表项 三
+
+
+ <center>  <!--开始居中对齐-->
+
+![GitHub set up](http://zh.mweb.im/asset/img/set-up-git.gif "图片Title")
+格式: ![图片Alt](图片地址 "图片Title")
+</center> <!--结束居中对齐-->
+
+
+
+>>> 请问 Markdwon 怎么用？ - 小白
+>> 自己看教程！ - 愤青
+> 教程在哪？ - 小白
+~~我是一行文字~~
+我是一行文字    ~~我是一行文字~~
+
+<font face="黑体">我是黑体字</font>
+<font face="微软雅黑">我是微软雅黑</font>
+<font face="STCAIYUN">我是华文彩云</font>
+<font color=#0099ff size=12 face="黑体">黑体</font>
+<font color=gray size=5>gray</font>
+<font color=#00ffff size=3>null</font>
+
+
+<center>
+&copy;
+</center>
+
+
+
+<center>
+&deg;C
+</center>
+
+
+
+
+[^要注明的文本]
+
+* asdda
+* asdda
+* asdda
++ asddsasd
++ asddsasd
+  + asddsasd
+  *  adsadsdas
+  *  adsadsdas
+  -  asdasdsads
+- asdsaadad
+- asdsaadad
+- asdsaadad
+
+
+
+> 最外层
+> > 第一层嵌套
+> > > 第二层嵌套
+
+
+<https://www.jianshu.com>
+
+
